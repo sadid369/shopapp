@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopapp/providers/cart.dart';
 import 'package:shopapp/providers/product.dart';
 import 'package:shopapp/screen/cart_screen.dart';
+import 'package:shopapp/widget/app_drawer.dart';
 import 'package:shopapp/widget/badge.dart';
 import 'package:shopapp/widget/product_item.dart';
 import 'package:shopapp/widget/products_grid.dart';
@@ -85,6 +86,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
         title: Text('MyShop'),
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(
         _showOnlyFavorite,
       ),
