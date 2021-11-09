@@ -25,7 +25,7 @@ class Orders with ChangeNotifier {
 
   Future<void> fatchAndSetOrders() async {
     const url =
-        'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json';
     final response = await http.get(Uri.parse(url));
     print(json.decode(response.body));
     final List<OrderItem> loadedOrders = [];
@@ -52,7 +52,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProduct, double total) async {
     const url =
-        'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json';
     final timeStamp = DateTime.now();
     final response = await http.post(Uri.parse(url),
         body: json.encode({

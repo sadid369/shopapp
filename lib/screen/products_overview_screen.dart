@@ -15,6 +15,7 @@ enum FilterOption {
 }
 
 class ProductOverviewScreen extends StatefulWidget {
+  static const routeName = 'product-overview-screen';
   @override
   _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
 }
@@ -106,9 +107,13 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         title: Text('MyShop'),
       ),
       drawer: AppDrawer(),
-      body: _isLoading ? Center(child: CircularProgressIndicator(),) : ProductsGrid(
-        _showOnlyFavorite,
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(
+              _showOnlyFavorite,
+            ),
     );
   }
 }

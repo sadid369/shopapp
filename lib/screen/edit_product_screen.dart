@@ -55,13 +55,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
       isLoading = true;
     });
     if (_editedProduct.id != null) {
-    await  Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
-      
     } else {
-      try{await  Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct);} catch(error){
-            await showDialog<Null>(
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+      } catch (error) {
+        await showDialog<Null>(
             context: context,
             builder: (context) => AlertDialog(
                   title: Text('An error occurred'),
@@ -74,19 +75,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         child: Text('Okay')),
                   ],
                 ));
-          }
+      }
       // finally{
       //    setState(() {
       //     isLoading = false;
       //      });
       //   Navigator.of(context).pop();
       // }
-  
+
     }
     setState(() {
-        isLoading = false;
-      });
-      Navigator.of(context).pop();
+      isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override

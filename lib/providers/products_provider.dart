@@ -58,7 +58,7 @@ class Products with ChangeNotifier {
     final productIndex = _items.indexWhere((element) => element.id == id);
     if (productIndex >= 0) {
       final url =
-          'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
+          'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
       http.patch(Uri.parse(url),
           body: json.encode({
             'title': newProduct.title,
@@ -75,7 +75,7 @@ class Products with ChangeNotifier {
 
   Future<void> fatchAndSetProducts() async {
     const url =
-        'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
     try {
       final response = await http.get(Uri.parse(url));
       print(json.decode(response.body));
@@ -105,7 +105,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     const url =
-        'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
     try {
       final response = await http.post(Uri.parse(url),
           body: json.encode({
@@ -133,7 +133,7 @@ class Products with ChangeNotifier {
 
   Future<void> removeProduct(String id) async {
     final url =
-        'https://shop-app-48059-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
