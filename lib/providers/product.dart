@@ -23,12 +23,12 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavorite() async {
+  Future<void> toggleFavorite(String authToken) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url =
-        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json?auth=$authToken';
     try {
       final response = await http.patch(
         Uri.parse(url),

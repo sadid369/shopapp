@@ -41,7 +41,8 @@ class Products with ChangeNotifier {
     // ),
   ];
   // var _showFavoritesOnly = false;
-
+  final String authToken;
+  Products(this.authToken, this._items);
   List<Product> get items {
     return [..._items];
   }
@@ -58,7 +59,7 @@ class Products with ChangeNotifier {
     final productIndex = _items.indexWhere((element) => element.id == id);
     if (productIndex >= 0) {
       final url =
-          'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
+          'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json?auth=$authToken';
       http.patch(Uri.parse(url),
           body: json.encode({
             'title': newProduct.title,
@@ -74,8 +75,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fatchAndSetProducts() async {
-    const url =
-        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
+    final url =
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json?auth=$authToken';
     try {
       final response = await http.get(Uri.parse(url));
       print(json.decode(response.body));
@@ -104,8 +105,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url =
-        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json';
+    final url =
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json?auth=$authToken';
     try {
       final response = await http.post(Uri.parse(url),
           body: json.encode({
@@ -133,7 +134,7 @@ class Products with ChangeNotifier {
 
   Future<void> removeProduct(String id) async {
     final url =
-        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json';
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product/$id.json?auth=$authToken';
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
