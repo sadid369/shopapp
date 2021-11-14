@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:shopapp/models/http_exception.dart';
 import 'package:shopapp/providers/product.dart';
-import 'package:http/http.dart' as http;
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -42,7 +44,12 @@ class Products with ChangeNotifier {
   ];
   // var _showFavoritesOnly = false;
   final String authToken;
-  Products(this.authToken, this._items);
+  final String userId;
+  Products(
+    this._items,
+    this.authToken,
+    this.userId,
+  );
   List<Product> get items {
     return [..._items];
   }
@@ -74,9 +81,11 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> fatchAndSetProducts() async {
-    final url =
-        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json?auth=$authToken';
+  Future<void> fatchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url =
+        'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/product.json?auth=$authToken&$filterString';
     try {
       final response = await http.get(Uri.parse(url));
       print(json.decode(response.body));
@@ -84,6 +93,11 @@ class Products with ChangeNotifier {
       if (extractData == null) {
         return;
       }
+
+      url =
+          'https://shop-app-main-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId.json?auth=$authToken';
+      final favoriteResponse = await http.get(Uri.parse(url));
+      final favoriteData = json.decode(favoriteResponse.body);
       final List<Product> loadedProduct = [];
       extractData.forEach((productId, productData) {
         loadedProduct.add(
@@ -93,7 +107,9 @@ class Products with ChangeNotifier {
               description: productData['description'],
               price: productData['price'],
               imageUrl: productData['imageUrl'],
-              isFavorite: productData['isFavorite']),
+              isFavorite: favoriteData == null
+                  ? false
+                  : favoriteData[productId] ?? false),
         );
       });
       _items = loadedProduct;
@@ -114,7 +130,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite,
+            'creatorId': userId,
           }));
       print(json.decode(response.body)['name']);
       final newProduct = Product(
