@@ -34,8 +34,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       ),
       drawer: AppDrawer(),
       body: FutureBuilder(
-          future:
-              _orderFuture,
+          future: _orderFuture,
           builder: (ctx, dataSnapshot) {
             if (dataSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -49,9 +48,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
               } else {
                 return Consumer<Orders>(
                   builder: (ctx, orderData, child) => ListView.builder(
-                    itemCount: orderData.order.length,
+                    itemCount: orderData.order!.length,
                     itemBuilder: (ctx, i) => OrderItem(
-                      order: orderData.order[i],
+                      order: orderData.order![i],
                     ),
                   ),
                 );

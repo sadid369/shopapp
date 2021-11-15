@@ -23,7 +23,7 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavorite(String authToken, String userID) async {
+  Future<void> toggleFavorite(String? authToken, String? userID) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();

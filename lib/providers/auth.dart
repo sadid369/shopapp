@@ -16,13 +16,13 @@ class Auth with ChangeNotifier {
     if (_expiryDate != null &&
         _expiryDate!.isAfter(DateTime.now()) &&
         _token != null) {
-      return _token!;
+      return _token;
     }
     return null;
   }
 
-  String get userId {
-    return _userId!;
+  String? get userId {
+    return _userId;
   }
 
   Future<void> _authenticate(
@@ -70,5 +70,12 @@ class Auth with ChangeNotifier {
 
   Future<void> signin(String email, String password) async {
     return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  void logout() {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    notifyListeners();
   }
 }
